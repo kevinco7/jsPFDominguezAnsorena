@@ -45,11 +45,12 @@ function convertirUsd(){
         total = total + totalConversion;
         totalRet = totalRet + ret;
         totalImpPais = totalImpPais + imp;
-             
-        alert( `Producto ${numero_producto} con nombre ${nombre} y monto total $ ${totalConversion}.Impuesto PAIS $ ${imp} Percepcion Ganancias $ ${ret}`);
-        // console.log( `Producto ${numero_producto} con nombre ${nombre} y monto total $ ${totalConversion}.Impuesto PAIS $ ${imp} Percepcion Ganancias $ ${ret}`);
+        
+        alert( `Producto ${numero_producto} ${nombre} \n monto total $ ${totalConversion}ARS \n Impuesto PAIS $ ${imp}ARS \n Percepcíon RG 4815 $ ${ret}ARS`);
+        
     }
-    alert(`El valor total de tus ${numero_producto} compras es de:\n Total: ${total}ARS \n Impuesto Pais: ${totalImpPais}ARS \n Percepcíon RG 4815: ${totalRet}ARS`)
+    let totalGeneral = total + totalImpPais + totalRet;
+    alert(`El valor total de tus ${numero_producto} compras es de:\n Total: ${total}ARS \n Impuesto PAIS: ${totalImpPais}ARS \n Percepcíon RG 4815: ${totalRet}ARS \n El gasto total es: ${totalGeneral}ARS `)
     
 };
 
@@ -60,6 +61,7 @@ function escondicionSalida(texto){
     }
     return false
 }
+
 
 botonUsd.onclick = convertirUsd;
 
