@@ -1,5 +1,4 @@
 const botonUsd = document.getElementById('usd');
-const botonChl = document.getElementById('chl');
 const impuestoPais = 0.30;
 const retencion = 0.45;
 const salir = "ESC";
@@ -50,7 +49,7 @@ function convertirUsd(){
         alert( `Producto ${numero_producto} con nombre ${nombre} y monto total $ ${totalConversion}.Impuesto PAIS $ ${imp} Percepcion Ganancias $ ${ret}`);
         // console.log( `Producto ${numero_producto} con nombre ${nombre} y monto total $ ${totalConversion}.Impuesto PAIS $ ${imp} Percepcion Ganancias $ ${ret}`);
     }
-    alert(`El valor total de tus ${numero_producto} compras es de: ${total}ARS \n Impuesto Pais total es  ${totalImpPais}ARS \n Percepcíon RG 4815 es ${totalRet}ARS`)
+    alert(`El valor total de tus ${numero_producto} compras es de:\n Total: ${total}ARS \n Impuesto Pais: ${totalImpPais}ARS \n Percepcíon RG 4815: ${totalRet}ARS`)
     
 };
 
@@ -62,8 +61,6 @@ function escondicionSalida(texto){
     return false
 }
 
-
-
 botonUsd.onclick = convertirUsd;
-// botonChl.onclick = convertirCHL;
+
 
