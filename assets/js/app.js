@@ -1,154 +1,204 @@
-const botonUsd = document.getElementById('usd');
-const valorImpuesto = 0.30;
+const valorImpuesto = 0.3;
 const valorRetencion = 0.45;
 const SALIR = "ESC";
+let productos = JSON.parse(localStorage.getItem("producto")) || [];
+// let productos = [];
+let totales = parseFloat(0);
+let totalSuma = parseFloat(0);
+console.log(productos);
 
-class Producto{
-    constructor(descripcion, precio, precioConversion)
-    {
-        this.descripcion = descripcion.toUpperCase();
-        this.precio = parseFloat(precio);
-        this.precioConversion = precioConversion;
-        this.retencion = 0;
-        this.impuesto = 0;
-        this.totalImpuesto = 0;
-    }
-     retenciones(){
-        this.retencion = this.precioConversion * valorRetencion;
-     }
-     impuestoPais(){
-        this.impuesto = this.precioConversion * valorImpuesto;
-     }
-     valorConImpuestos(){
-        this.totalImpuesto = this.precioConversion + this.retencion + this.impuesto ;
-     }
+class Producto {
+  constructor(id, descripcion, precio, precioConversion, retencion) {
+    this.id = id;
+    this.descripcion = descripcion;
+    this.precio = parseFloat(precio);
+    this.precioConversion = parseFloat(precioConversion);
+    this.retencion = parseFloat(retencion);
+    this.impuesto = parseFloat(this.impuesto);
+    this.totalImpuesto = parseFloat(this.totalImpuesto);
+  }
+  retenciones() {
+    this.retencion = this.precioConversion * valorRetencion;
+    return this.retencion;
+  }
+  impuestoPais() {
+    this.impuesto = this.precioConversion * valorImpuesto;
+    return this.impuesto;
+  }
+  valorConImpuestos() {
+    this.totalImpuesto = this.precioConversion + this.retencion + this.impuesto;
+    return this.totalImpuesto;
+  }
+  sumaTotal() {
+    precioTotalProducto += this.precio;
+  }
 }
 
-function convertirUsd(){
-let total =0;
-let totalRetencion = 0;
-let totalImpuesto = 0;
-let gastoFinal = 0;
-let cantidadProductos=0;
-const productos = [];
+let editando = false;
+const formulario = document.querySelector("#formulario");
+const descripcionInput = document.querySelector("#descripcion");
+const precioInput = document.querySelector("#precio");
+const btnAgregar = document.querySelector("#btnAgregar");
+const dolarOficial = document.querySelector("#precioDolar");
 
-    let valorDia = Number(prompt("Ingrese el valor del dolar oficial Banco Nacion"));
-    while(valorDia ==""){
-    alert("Ingrese un valor");
-    valorDia = Number(prompt("Ingrese el valor del dolar oficial Banco Nacion"));
-    }    
-    do{
-        cantidadProductos = Number(prompt("Ingrese la cantidad de productos que compraste"));
-        if(cantidadProductos <=0){
-          alert("Ingrese una cantidad valida");
-        }
-    }while(cantidadProductos <=0);
+mostrarProductos();
 
-    for (let i = 1; i <= cantidadProductos; i++) {
-        
-        let nombre = prompt(`Ingrese el nombre producto o ${SALIR} para salir`);
-        if(escondicionSalida(nombre)){
-            alert("MUCHAS GRACIAS!")
-            break
-        }
-        // numero_producto = i;
-        let precioProducto = prompt("Ingrese el precio en u$d de "+ nombre );
-        while(precioProducto <= 0)
-        {
-          alert("Ingrese un precio valido");
-          precioProducto = prompt("Ingrese el precio en u$d de "+ nombre );
-        }
+formulario.addEventListener("submit", cargarCompra);
 
-        
-        let totalConversion = precioProducto * valorDia;
-                      
-        productos.push(new Producto(nombre, precioProducto,totalConversion,));   
-         total = calcularTotal(productos);
-         
-         for(const producto of  productos )
-         {
-             producto.impuestoPais();
-             
-             producto.retenciones();
-             
-             producto.valorConImpuestos();
-             
-             
-            }
-        totalRetencion = calcularTotalRetencion(productos);
-        totalImpuesto = calcularTotalImpuestoPais(productos);
-        gastoFinal = calcularGastoTotal(productos);
-        console.log(productos);
+function cargarCompra(e) {
+  // para que no se ejecute de forma automatica
+  e.preventDefault();
 
-        
+  if (descripcionInput.value === "" || precioInput.value === "") {
+    alert("Todos los campos se deben llenar");
+    return;
+  }
 
-        }
-        console.log(`Impuesto Pais total $ ${total} ars`);
-        console.log(`Impuesto Pais total $ ${totalImpuesto} ars`);
-        console.log(`retenciones totales $ ${totalRetencion} ars`);
-        console.log(`gasto total con impuesto $ ${gastoFinal} ars`);
-        
-        alert(`    El gasto total de tus compras es de:    
-    -------------------------------------------------------- 
-    precio sin impuesto: $ ${total} ars
-    Retencion:                 $ ${totalRetencion} ars
-    Impuesto Pais:          $ ${totalImpuesto} ars
-    --------------------------------------------------------
-    Precio total:            $ ${gastoFinal} ars`)
+  if (editando) {
+    editarProducto();
+    editando = false;
+  } else {
+    idP = Date.now();
+    nombreProducto = descripcionInput.value;
+    precioProducto = precioInput.value;
+    precioConversion = precioProducto * dolarOficial.value;
+    agregarProducto();
+  }
+}
+
+function agregarProducto() {
+  // productos.push({...Producto});
+
+  productos.push(
+    new Producto(idP, nombreProducto, precioProducto, precioConversion)
+  );
+  for (const producto of productos) {
+    producto.retenciones();
+    producto.impuestoPais();
+    producto.valorConImpuestos();
+  }
 
 
-        function calcularTotal(items) {
-            let totalValorSinImpuesto = 0
-            for (const item of items) {
-                totalValorSinImpuesto = totalValorSinImpuesto + item.precioConversion
-            }
-            return totalValorSinImpuesto
-        }
+  mostrarProductos();
 
-        function calcularTotalRetencion(items) {
-            let totalValorRetenciones = 0
-            for (const item of items) {
-                totalValorRetenciones = totalValorRetenciones + item.retencion
-            }
-            return totalValorRetenciones
-        }
+  formulario.reset();
+  limpiarObjeto();
+}
 
-        function calcularTotalImpuestoPais(items) {
-            let totalValorimpuesto = 0
-            for (const item of items) {
-                totalValorimpuesto = totalValorimpuesto + item.impuesto
-            }
-            return totalValorimpuesto
-        }
+function limpiarObjeto() {
+  Producto.id = "";
+  Producto.descripcion = "";
+  Producto.precio = 0;
+  Producto.precioConversion = 0;
+  productos.retencion = 0;
+  totalSuma = 0;
+}
 
-        function calcularGastoTotal(items) {
-            let precioFinal = 0
-            for (const item of items) {
-                precioFinal = precioFinal + item.totalImpuesto
-            }
-            return precioFinal
-        }
+function mostrarProductos() {
+  //funcion para limpiar el listado y que no se repita con lo creado
+  limpiarHTML();
+  const divProductos = document.querySelector(".div-productos");
+  
+  productos.forEach((producto) => {
+    const { id, descripcion, precio, precioConversion, retencion, impuesto } =
+      producto;
 
-    function escondicionSalida(texto){
-        if(texto==SALIR){
-           return true
-        }
-        return false
-    }
     
-let buscar = prompt("Escribe el nombre del producto que desea visualizar!, si quiere cancelar ingrese ESC")
 
-if (buscar != SALIR) {
-    const resultado = productos.find((producto) => producto.descripcion === buscar.toUpperCase())
-    alert(`    Producto ${productos.indexOf(resultado)+1}: 
-    En tu compra ${resultado.descripcion}, Gastaste u$d ${resultado.precio}
-    -------------------------------------------------------- 
-    precio sin impuesto: $ ${resultado.precioConversion} ars
-    Retencion:                 $ ${resultado.retencion} ars
-    Impuesto Pais:          $ ${resultado.impuesto} ars
-    --------------------------------------------------------
-    Precio total:            $ ${resultado.totalImpuesto} ars`)
+    const parrafo = document.createElement("p");
+    parrafo.innerHTML = `Descripción ${descripcion} u$d ${precio} $ ${precioConversion} ars 
+                         Retención: $ ${retencion}ars  impuesto: ${impuesto} ars`;
+
+    parrafo.dataset.id = id;
+    totalSuma = calcularTotal(productos);
+
+    totales = document.querySelector("#total");
+    totales.innerHTML = totalSuma;
+
+    //localstorage
+    const productoJSON = JSON.stringify(productos);
+    localStorage.setItem("producto", productoJSON);
+
+    const editarBoton = document.createElement("button");
+    editarBoton.onclick = () => cargarProducto(producto);
+    editarBoton.textContent = "Editar";
+    editarBoton.classList.add("btn", "btn-editar");
+    parrafo.append(editarBoton);
+
+    const eliminarBoton = document.createElement("button");
+    eliminarBoton.onclick = () => eliminarProducto(id);
+    eliminarBoton.textContent = "Eliminar";
+    eliminarBoton.classList.add("btn", "btn-eliminar");
+    parrafo.append(eliminarBoton);
+
+    const hr = document.createElement("hr");
+
+    divProductos.appendChild(parrafo);
+    divProductos.appendChild(hr);
+  });
 }
 
-};
-botonUsd.onclick = convertirUsd;
+function cargarProducto(producto) {
+  const { id, descripcion, precio } = producto;
+
+  Producto.id = id;
+  descripcionInput.value = descripcion;
+  precioInput.value = precio;
+
+  formulario.querySelector('button[type="submit"]').textContent = "Actualizar";
+  editando = true;
+}
+
+function editarProducto() {
+  Producto.descripcion = descripcionInput.value;
+  Producto.precio = precioInput.value;
+  Producto.precioConversion = precioInput.value * dolarOficial.value;
+  Producto.retencion = Producto.precioConversion * valorRetencion;
+  Producto.impuesto = Producto.precioConversion * valorImpuesto;
+
+  productos.map((producto) => {
+    if (producto.id === Producto.id) {
+      producto.id = Producto.id;
+      producto.descripcion = Producto.descripcion;
+      producto.precio = Producto.precio;
+      producto.precioConversion = Producto.precioConversion;
+      producto.retencion = Producto.retencion;
+      producto.impuesto = Producto.impuesto;
+    }
+  });
+
+  limpiarHTML();
+  mostrarProductos();
+
+  formulario.reset();
+  formulario.querySelector("button[type=submit]").textContent = "Agregar";
+  editando = false;
+}
+
+function eliminarProducto(id) {
+  productos = productos.filter((producto) => producto.id !== id);
+ 
+  limpiarHTML();
+  mostrarProductos();
+}
+
+function calcularTotal(items) {
+  let totalValor = 0;
+  for (const item of items) {
+    totalValor = parseFloat(totalValor) + parseFloat(item.precio);
+  }
+  return parseFloat(totalValor);
+}
+
+function limpiarHTML() {
+  //elementos hijos del divproductos
+  const divProductos = document.querySelector(".div-productos");
+
+  //mientras divProd tenga hijos,se eliminaran
+  while (divProductos.firstChild) {
+    divProductos.removeChild(divProductos.firstChild);
+  
+    localStorage.clear();
+    
+  }
+}
