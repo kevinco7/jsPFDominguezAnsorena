@@ -5,29 +5,24 @@ let productos = JSON.parse(localStorage.getItem("producto")) || [];
 // let productos = [];
 let totales = parseFloat(0);
 let totalSuma = parseFloat(0);
-console.log(productos);
 
 class Producto {
-  constructor(id, descripcion, precio, precioConversion, retencion) {
+  constructor(
+    id,
+    descripcion,
+    precio,
+    precioConversion,
+    retencion,
+    impuesto,
+    totalImpuesto
+  ) {
     this.id = id;
     this.descripcion = descripcion;
     this.precio = parseFloat(precio);
     this.precioConversion = parseFloat(precioConversion);
     this.retencion = parseFloat(retencion);
-    this.impuesto = parseFloat(this.impuesto);
-    this.totalImpuesto = parseFloat(this.totalImpuesto);
-  }
-  retenciones() {
-    this.retencion = this.precioConversion * valorRetencion;
-    return this.retencion;
-  }
-  impuestoPais() {
-    this.impuesto = this.precioConversion * valorImpuesto;
-    return this.impuesto;
-  }
-  valorConImpuestos() {
-    this.totalImpuesto = this.precioConversion + this.retencion + this.impuesto;
-    return this.totalImpuesto;
+    this.impuesto = parseFloat(impuesto);
+    this.totalImpuesto = parseFloat(totalImpuesto);
   }
   sumaTotal() {
     precioTotalProducto += this.precio;
@@ -40,7 +35,8 @@ const descripcionInput = document.querySelector("#descripcion");
 const precioInput = document.querySelector("#precio");
 const btnAgregar = document.querySelector("#btnAgregar");
 const dolarOficial = document.querySelector("#precioDolar");
-
+formulario.reset();
+limpiarObjeto();
 mostrarProductos();
 
 formulario.addEventListener("submit", cargarCompra);
@@ -62,6 +58,10 @@ function cargarCompra(e) {
     nombreProducto = descripcionInput.value;
     precioProducto = precioInput.value;
     precioConversion = precioProducto * dolarOficial.value;
+    retencion = precioConversion * valorRetencion;
+    impuesto = precioConversion * valorImpuesto;
+    totalImpuesto = precioConversion + retencion + impuesto;
+
     agregarProducto();
   }
 }
@@ -70,17 +70,17 @@ function agregarProducto() {
   // productos.push({...Producto});
 
   productos.push(
-    new Producto(idP, nombreProducto, precioProducto, precioConversion)
+    new Producto(
+      idP,
+      nombreProducto,
+      precioProducto,
+      precioConversion,
+      retencion,
+      impuesto,
+      totalImpuesto
+    )
   );
-  for (const producto of productos) {
-    producto.retenciones();
-    producto.impuestoPais();
-    producto.valorConImpuestos();
-  }
-
-
   mostrarProductos();
-
   formulario.reset();
   limpiarObjeto();
 }
@@ -98,16 +98,21 @@ function mostrarProductos() {
   //funcion para limpiar el listado y que no se repita con lo creado
   limpiarHTML();
   const divProductos = document.querySelector(".div-productos");
-  
-  productos.forEach((producto) => {
-    const { id, descripcion, precio, precioConversion, retencion, impuesto } =
-      producto;
 
-    
+  productos.forEach((producto) => {
+    const {
+      id,
+      descripcion,
+      precio,
+      precioConversion,
+      retencion,
+      impuesto,
+      totalImpuesto,
+    } = producto;
 
     const parrafo = document.createElement("p");
     parrafo.innerHTML = `Descripción ${descripcion} u$d ${precio} $ ${precioConversion} ars 
-                         Retención: $ ${retencion}ars  impuesto: ${impuesto} ars`;
+                         Retención: $ ${retencion}ars  impuesto: ${impuesto} ars total: $ ${totalImpuesto} `;
 
     parrafo.dataset.id = id;
     totalSuma = calcularTotal(productos);
@@ -155,6 +160,8 @@ function editarProducto() {
   Producto.precioConversion = precioInput.value * dolarOficial.value;
   Producto.retencion = Producto.precioConversion * valorRetencion;
   Producto.impuesto = Producto.precioConversion * valorImpuesto;
+  Producto.totalImpuesto =
+    Producto.precioConversion + Producto.retencion + Producto.impuesto;
 
   productos.map((producto) => {
     if (producto.id === Producto.id) {
@@ -164,6 +171,7 @@ function editarProducto() {
       producto.precioConversion = Producto.precioConversion;
       producto.retencion = Producto.retencion;
       producto.impuesto = Producto.impuesto;
+      producto.totalImpuesto = Producto.totalImpuesto;
     }
   });
 
@@ -177,7 +185,7 @@ function editarProducto() {
 
 function eliminarProducto(id) {
   productos = productos.filter((producto) => producto.id !== id);
- 
+
   limpiarHTML();
   mostrarProductos();
 }
@@ -197,8 +205,7 @@ function limpiarHTML() {
   //mientras divProd tenga hijos,se eliminaran
   while (divProductos.firstChild) {
     divProductos.removeChild(divProductos.firstChild);
-  
+
     localStorage.clear();
-    
   }
 }
