@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="en">
+<html lang="es">
 
 <head>
   <meta charset="utf-8">
@@ -11,83 +11,84 @@
 </head>
 
 <body>
-  <section>
-    <div class="container">
-      <div class="row">
-        <h1>Calcula tus compras en el exterior</h1>
-        <div class="col-4">
-          <div class="div-formulario">
-
-          <label for="precioDolar" class="form-label">Dolar Oficial:</label>
-          <input class=" form-control" style="width: 100px" type="number"  name="precioDolar" id="precioDolar">
-            <form action="#" id="formulario">
-              <label for="descripcion" class="form-label">Descripcion:</label>
-              <input class=" form-control" style="width: 300px" type="text" name="descripcion" id="descripcion"
-                placeholder="Ingresa el producto">
-
-              <label for="precio" class="form-label ">Precio u$d:</label>
-              <input class="form-control" style="width: 100px" type="number"  name="precio" id="precio"
-                placeholder="Ingresa el precio">
-              <button type="submit" class="btn btn-primary mt-5" id="btnAgregar">Agregar</button>
-
-            </form>
+  <div class="div-formulario">
+    <form id="formulario">
+      <div class="container">
+        <div class="row ">
+          <div class="text-center mb-3 pt-3">
+            <h1>Calcula tus compras en el exterior</h1>
+          </div>
+          <div  class="col-8 col-md-3 col-lg-2 mx-auto">
+            <label for="precioDolar" class="form-label">Dolar Oficial:</label>
+            <input type="number" class="form-control" name="precioDolar" step=".01" id="precioDolar"
+              aria-describedby="precioDolar">
+          </div>
+          <div  class="col-8 col-md-4 col-lg-4 mx-auto">
+            <label for="descripcion" class="form-label">Descripcion:</label>
+            <input class="form-control" type="text" name="descripcion" id="descripcion">
+          </div>
+          <div  class="col-8 col-md-3 col-lg-2 mx-auto">
+            <label for="precio" class="form-label ">Precio u$d:</label>
+            <input class="form-control" type="number" step=".01" name="precio" id="precio">
+          </div>
+          <div class="text-center mx-auto">
+            <button type="submit" class="btn btn-primary mt-5" style="width: 200px;" id="btnAgregar">Agregar</button>
           </div>
         </div>
-
-
-
-        <div class="col">
-          <div class="div-listado">
-            <h2>Listado de Compras</h2>
-
-            <div class="div-productos">
-
-
-            </div>
-          </div>
-
-          <div class="div-totales">
-            <h2>total</h2>
-            <div class="div-precios">
-              <h4 id="total"> </h4>
-
-            </div>
-          </div>
-        </div>
-
-
-
-
       </div>
+    </form>
+
+    <div class="container pt-5">
+      <table >
+        <thead>
+            <tr>
+                <th>Descripcion</th>
+                <th>Precio</th>
+                <th>Precio sin Impuestos</th>
+                <th>Percepcion RG 4815</th>
+                <th>Impuesto PAIS</th>
+                <th>Total con impuestos</th>
+                <th>Accion</th>
+                
+            </tr>
+        </thead>
+        <tbody id="cuerpoTabla">
+  
+        </tbody>
+        <tfoot>
+          <tr>
+            <th></th>
+            <th>Gasto Total
+            </th>
+            <th>Total sin Impuestos</th>
+            <th>Percepcion RG 4815</th>
+            <th>Impuesto PAIS</th>
+            <th>Impuesto RG 5272</th>
+            <th>Total con impuestos</th>           
+          </tr>
+          <tr>
+              <td></td>
+              <td id="PrecioTotal"></td>
+              <td id="TotalSinImpuestos"></td>
+              <td id="totalRetenciones"></td>
+              <td id="totalImpuestos"></td>
+              <td id="totalBienes"></td>
+              <td id="totalGasto"></td>
+          </tr>
+        </tfoot id="cuerpoTotales">
+    </table>
     </div>
-  </section>
-
-  <section>
-    <div class="container ">
-
-      <div class="row">
-
-      </div>
-  </section>
-
-  <section id="contenido">
-
-  </section>
 
 
+    
 
 
-  </div>
-  </div>
-
-  </div>
-
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"
-    integrity="sha384-w76AqPfDkMBDXo30jS1Sgez6pr3x5MlQ1ZAGC+nuZB+EYdgRZgiwxhTBTkF7CXvN"
-    crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"
+      integrity="sha384-w76AqPfDkMBDXo30jS1Sgez6pr3x5MlQ1ZAGC+nuZB+EYdgRZgiwxhTBTkF7CXvN"
+      crossorigin="anonymous"></script>
 
 
-  <script src="assets/js/app.js" defer></script>
+    <script src="assets/js/app.js" defer></script>
 
 </body>
 

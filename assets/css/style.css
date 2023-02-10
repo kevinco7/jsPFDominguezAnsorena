@@ -7,7 +7,7 @@
   body {
     min-height: 100vh;
     font-family: sans-serif; 
-    background-color: hsla(0, 0%, 69%, 0.606);
+    background-color: #e4fbfb;
   }
 
   .btn {
@@ -17,6 +17,9 @@
     color: white;
     border-radius: 50px;
     
+}
+.btn-primary{
+  background-color: #1e88e3;
 }
 
 .btn-eliminar {
@@ -32,12 +35,12 @@
   color: #ffffff;
   text-align: center;
   transition: all 0.2s;
-  background-color: #ac0e0e;
+  background-color: #ff3842;
 }
 
 .btn-eliminar:hover {
   color: #000000;
-  background-color: #ffffff;
+  background-color: #ec042d;
 }
 
 .btn-editar {
@@ -53,10 +56,46 @@
   color: #ffffff;
   text-align: center;
   transition: all 0.2s;
-  background-color: #09a104;
+  background-color: #607ec9;
 }
 
 .btn-editar:hover {
   color: #000000;
-  background-color: #0bed5a;
+  background-color: #335aa4;
+}
+
+table {
+ 
+  
+  border-collapse: separate;
+  border-spacing: 7px;
+  background:#c7f7f7;
+  color: #fff;
+  border-radius: 10px;
+}
+th {
+  background: #c7f7f7;
+  border-radius: 2px;
+  color: #000000;
+  width: 10%;
+  text-align: left; 
+ 
+}
+td{
+  background: #e4fbfb;
+  border-radius: 2px;
+  color: #000000;
+  padding-left: 10px;
+  width: 10%;
+  text-align: left; 
+ 
+}
+
+tr button{
+  background: #fff;
+  border-radius: 2px;
+  color: #000000;
+  padding-left: 5px;
+  width: 100%;
+  text-align: left;  
 }
