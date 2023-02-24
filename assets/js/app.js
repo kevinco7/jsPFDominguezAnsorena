@@ -11,7 +11,6 @@ let totalSI = parseFloat(0).toFixed(2);
 let bienesPersonales = parseFloat(0).toFixed(2);
 
 let conversion = parseFloat(0).toFixed(2);
-
 let editando = false;
 const formulario = document.querySelector("#formulario");
 const descripcionInput = document.querySelector("#descripcion");
@@ -179,10 +178,9 @@ function mostrarProductos() {
     let tdNombre = document.createElement("td");
     tdNombre.textContent = `${producto.descripcion}`;
     $tr.appendChild(tdNombre);
-    let tdPrecio = document.createElement("td",);
-    tdPrecio.innerHTML = `${producto.monedaCompra} ${producto.precio} <br>
+    let tdPrecio = document.createElement("td");
+    tdPrecio.innerHTML = ` ${producto.monedaCompra} ${producto.precio} <br>
                           U$D ${producto.precioTarjeta}`;
-
     $tr.appendChild(tdPrecio);
     let tdPrecioSI = document.createElement("td");
     tdPrecioSI.textContent = `$ ${producto.precioConversion}`;
@@ -216,11 +214,11 @@ function mostrarProductos() {
 }
 
 function Totales() {
-  totalSuma = calcularTotal(productos);
+  totalSuma =parseFloat(calcularTotal(productos)).toFixed(2);
   let totales = document.querySelector("#PrecioTotal");
   totales.innerHTML = `u$d ${totalSuma}`;
 
-  totalSI = calcularTotalSinImpuesto(productos);
+  totalSI = parseFloat(calcularTotalSinImpuesto(productos)).toFixed(2);
   let totalesSI = document.querySelector("#TotalSinImpuestos");
   totalesSI.innerHTML = `$ ${totalSI}`;
 
@@ -266,7 +264,7 @@ function limpiarObjeto() {
 
 function editarProducto() {
   Producto.descripcion = descripcionInput.value;
-  Producto.precio = precioInput.value;
+  Producto.precio =parseFloat(precioInput.value).toFixed(2);
   Producto.precioTarjeta = parseFloat(conversionProducto).toFixed(2);
   Producto.precioConversion = parseFloat(
     conversion * conversionProducto
