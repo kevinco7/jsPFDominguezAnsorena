@@ -5,77 +5,23 @@ const SALIR = "ESC";
 let productos = JSON.parse(localStorage.getItem("producto")) || [];
 let precioCompra = parseFloat(0).toFixed(2);
 let valorDolar = parseFloat(0).toFixed(2);
-// let productos = [];
 let totalSuma = parseFloat(0).toFixed(2);
 let totalSI = parseFloat(0).toFixed(2);
 let bienesPersonales = parseFloat(0).toFixed(2);
-// const precioInput = parseFloat(0)
 
 let conversion = parseFloat(0).toFixed(2);
-
 
 let editando = false;
 const formulario = document.querySelector("#formulario");
 const descripcionInput = document.querySelector("#descripcion");
 const selectMonedaInput = document.querySelector("#moneda-uno");
-// const base= document.querySelector('#moneda-uno').value;
 const btnAgregar = document.querySelector("#btnAgregar");
 const precioInput = document.querySelector("#precio");
 
-
 let conversionProducto = parseFloat(0).toFixed(2);
 
-// function valorDolarOficial () {
-//   let valor;
-//   fetch('https://api.bluelytics.com.ar/v2/latest')
-//     .then(response => response.json())
-//     .then(response => {
-
-//       response.forEach(element => {
-//         valor = element.value_sell;
-//       });
-//     });
-
-//     conversion =parseFloat(valo);
-
-// }
-
-
-
-
-
-
-
-
-
-// async function cargarConversionUsdArs() {
-//   baseUsd = "USD";
-
-//   try {
-//     const response = await fetch(
-//       `https://api.exchangerate.host/latest?/source=ecb&base=${baseUsd}`
-//     );
-//     const data = await response.json();
-//     console.log(data);
-//     const amount2 = 1;
-//     // const currencyTo = 'USD';
-//     const rate2 = data.rates["ARS"];
-//     function convert2() {
-//       return (conversion = parseFloat(amount2 * rate2).toFixed(2));
-//     }
-//     console.log(convert2());
-//     // respuesta2();
-//     // document.querySelector(".display-result").innerHTML = `${amount} ${base.toUpperCase()} / U$D ${convert().toFixed(2)}`;
-//   } catch (error) {
-//     console.log("Error: ", error);
-//   }
-// }
-// const respuesta2 = async() =>{
-//     console.log(`${amount2} ${baseUsd.toUpperCase()} / ARS ${parseFloat(conversion).toFixed(2)}`);
-// }
-
 async function cargarConversion() {
-  let amount = parseFloat(0).toFixed(2);
+  // let amount = parseFloat(0).toFixed(2);
   let rate = parseFloat(0).toFixed(2);
   let base = document.querySelector("#moneda-uno").value;
   let precio = document.querySelector("#precio").value;
@@ -85,47 +31,29 @@ async function cargarConversion() {
     );
     const data = await response.json();
     console.log(data);
-    amount = precio;
+    // amount = precio;
     rate = data.rates["USD"];
-    conversionProducto = parseFloat(amount * rate).toFixed(2)
-  
-    // function convertirCompra() {
-    //   conversionProducto = parseFloat(amount * rate).toFixed(2);
-    // }
-    // console.log(convertirCompra());
-    // cargarConversionUsdArs();
-    
-    // respuesta();
-    // document.querySelector(".display-result").innerHTML = `${amount} ${base.toUpperCase()} / U$D ${convert()}`;
+    conversionProducto = parseFloat(precio * rate).toFixed(2);
   } catch (error) {
     console.log("Error: ", error);
   }
-
-  // const respuesta = async () => {
-  //   console.log(`${amount} ${base.toUpperCase()} / U$D ${conversionProducto}`);
-  // };
 }
 
-
-const valorDolarOficial = async () =>{
+const valorDolarOficial = async () => {
   try {
-    const resp = await fetch('https://api.bluelytics.com.ar/json/last_price');
+    const resp = await fetch("https://api.bluelytics.com.ar/json/last_price");
     const jsonResp = await resp.json();
-  
-    jsonResp.forEach(element => {
+
+    jsonResp.forEach((element) => {
       valorDolar = element.value_sell;
-  
-   console.log(valorDolar);
+
+      console.log(valorDolar);
     });
-   
-  conversion = parseFloat(valorDolar).toFixed(2);
-  console.log('valor conversion' + conversion);
-  } catch (error) {
-    
-  }
-  
-  
-  }
+
+    conversion = parseFloat(valorDolar).toFixed(2);
+    console.log("valor conversion" + conversion);
+  } catch (error) {}
+};
 
 class Producto {
   constructor(
@@ -160,37 +88,24 @@ formulario.reset();
 limpiarObjeto();
 mostrarProductos();
 
-
-
-
-
-
-
-
-
 valorDolarOficial();
 formulario.addEventListener("submit", cargarCompra);
 
 function cargarCompra(e) {
-  // function cargarCompra(e)
   cargarConversion();
   // para que no se ejecute de forma automatica
   e.preventDefault();
-  
+
   return new Promise((resolve) => {
     setTimeout(() => {
       if (descripcionInput.value === "" || precioInput.value === "") {
         alert("Todos los campos se deben llenar");
         return;
       }
-      // agregar funcion asincrona de la conversion
-
       if (editando) {
         editarProducto();
         editando = false;
       } else {
-        //CalcularPrecio();
-
         idP = Date.now();
         nombreProducto = descripcionInput.value;
         precioProducto = precio.value;
@@ -204,17 +119,12 @@ function cargarCompra(e) {
 
         agregarProducto();
       }
-
       resolve();
-    }, 1500);
+    }, 5000);
   });
 }
 
-
-
 function agregarProducto() {
-  // productos.push({...Producto});
-
   productos.push(
     new Producto(
       idP,
@@ -234,14 +144,10 @@ function agregarProducto() {
   limpiarObjeto();
 }
 
-
-
 function mostrarProductos() {
   //funcion para limpiar el listado y que no se repita con lo creado
   limpiarHTML();
-  // const divProductos = document.querySelector(".div-productos");
   const $cuerpoTabla = document.querySelector("#cuerpoTabla");
-  // const $cuerpoTotales = document.querySelector("#cuerpoTotales");
   productos.forEach((producto) => {
     const {
       id,
@@ -271,8 +177,9 @@ function mostrarProductos() {
     tdNombre.textContent = `${producto.descripcion}`;
     $tr.appendChild(tdNombre);
     let tdPrecio = document.createElement("td");
-    tdPrecio.textContent = `${producto.monedaCompra} ${producto.precio} u$d 
-     ${producto.precioTarjeta}`;
+    tdPrecio.innerHTML = `${producto.monedaCompra} ${producto.precio} <br>
+                          U$D ${producto.precioTarjeta}`;
+
     $tr.appendChild(tdPrecio);
     let tdPrecioSI = document.createElement("td");
     tdPrecioSI.textContent = `$ ${producto.precioConversion}`;
@@ -298,13 +205,6 @@ function mostrarProductos() {
     tdEliminar.textContent = "Eliminar";
     tdEliminar.classList.add("btn", "btn-eliminar");
     $tr.appendChild(tdEliminar);
-
-    let tdVerDetalle = document.createElement("button");
-    // tdVerDetalle.onclick = () => visualizarProducto(id);
-    tdVerDetalle.textContent = "Detalle";
-    tdVerDetalle.classList.add("btn", "btn-detalle");
-    $tr.appendChild(tdVerDetalle);
-
     $cuerpoTabla.appendChild($tr);
 
     //tabla de totales
@@ -319,27 +219,22 @@ function Totales() {
 
   totalSI = calcularTotalSinImpuesto(productos);
   let totalesSI = document.querySelector("#TotalSinImpuestos");
-  // let totalesSI = document.querySelector("#PrecioTotal");
   totalesSI.innerHTML = `$ ${totalSI}`;
 
   let impPais = parseFloat(calcularTotalImpuestoPais(productos)).toFixed(2);
   let totalImpPais = document.querySelector("#totalImpuestos");
-  // let totalImpPais = document.querySelector("#PrecioTotal");
   totalImpPais.innerHTML = `$ ${impPais}`;
 
   let ImpRet = parseFloat(calcularTotalRetencion(productos)).toFixed(2);
   let totalRetenciones = document.querySelector("#totalRetenciones");
-  // let totalRetenciones = document.querySelector("#PrecioTotal");
   totalRetenciones.innerHTML = `$ ${ImpRet}`;
 
   let bienes = parseFloat(calcularImpuesto25(productos)).toFixed(2);
   let totalBienesPersonales = document.querySelector("#totalBienes");
-  // let totalBienesPersonales = document.querySelector("#PrecioTotal");
   totalBienesPersonales.innerHTML = `$ ${bienes}`;
 
   let gastoTotal = parseFloat(calcularGastoTotal(productos)).toFixed(2);
   let totalDeGasto = document.querySelector("#totalGasto");
-  // let totalDeGasto = document.querySelector("#PrecioTotal");
   totalDeGasto.innerHTML = ` $ ${gastoTotal}`;
 }
 
@@ -355,7 +250,6 @@ function cargarProducto(producto) {
   editando = true;
 }
 
-
 function limpiarObjeto() {
   Producto.id = "";
   Producto.descripcion = "";
@@ -366,7 +260,6 @@ function limpiarObjeto() {
   productos.retencion = 0;
   totalSuma = 0;
 }
-
 
 function editarProducto() {
   Producto.descripcion = descripcionInput.value;
@@ -400,9 +293,7 @@ function editarProducto() {
 
   limpiarHTML();
   mostrarProductos();
-
   formulario.reset();
-
   formulario.querySelector("button[type=submit]").textContent = "Agregar";
   editando = false;
 }
@@ -473,20 +364,10 @@ function calcularGastoTotal(items) {
 }
 
 function limpiarHTML() {
-  //elementos hijos del divproductos
-  // const divProductos = document.querySelector(".div-productos");
   const $cuerpoTabla = document.querySelector("#cuerpoTabla");
   while ($cuerpoTabla.firstChild) {
     $cuerpoTabla.removeChild($cuerpoTabla.firstChild);
     localStorage.clear();
     Totales();
   }
-
-  //mientras divProd tenga hijos,se eliminaran
-  // while (divProductos.firstChild) {
-  //   divProductos.removeChild(divProductos.firstChild);
-  //   localStorage.clear();
-  //   totalSuma = calcularTotal(productos);
-  //   totales.innerHTML = totalSuma;
-  // }
 }

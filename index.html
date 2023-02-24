@@ -17,23 +17,23 @@
         <div class="row ">
           <div class="text-center mb-3 pt-3">
             <h1>Calcula tus compras en el exterior</h1>
-          </div>        
+          </div>
           <div class="col-8 col-md-4 col-lg-4 mx-auto">
             <label for="descripcion" class="form-label">Descripcion:</label>
             <input class="form-control" type="text" name="descripcion" id="descripcion">
           </div>
-          <div class="col-8 col-md-4 col-lg-3 mx-auto">  
-            <div id="moneda" class="mx-auto pt-3 mt-4">              
+          <div class="col-8 col-md-4 col-lg-3 mx-auto">
+            <div id="moneda" class="mx-auto pt-3 mt-4">
               <select class="form-select pt-2" name="" id="moneda-uno">
                 <option value="CLP">Peso Chileno</option>
                 <option value="BRL">Real Brasilero</option>
                 <option value="UYU">Peso Uruguayo</option>
                 <option value="EUR">Euro</option>
                 <option value="USD">Dolar Estadounidense</option>
-              </select>           
+              </select>
             </div>
           </div>
-          <div  class="col-8 col-md-3 col-lg-2 mx-auto">       
+          <div class="col-8 col-md-3 col-lg-2 mx-auto">
             <label for="precio" class="form-label ">Precio:</label>
             <input class="form-control" type="number" step=".01" name="precio" id="precio">
           </div>
@@ -45,21 +45,21 @@
     </form>
 
     <div class="container pt-5">
-      <table >
+      <table>
         <thead>
-            <tr>
-                <th>Descripcion</th>
-                <th>Precio</th>
-                <th>Precio sin Impuestos</th>
-                <th>Percepcion RG 4815</th>
-                <th>Impuesto PAIS</th>
-                <th>Total con impuestos</th>
-                <th>Accion</th>
-                
-            </tr>
+          <tr>
+            <th>Descripcion</th>
+            <th>Precio</th>
+            <th>Precio sin Impuestos</th>
+            <th>Percepcion RG 4815</th>
+            <th>Impuesto PAIS</th>
+            <th>Total con impuestos</th>
+            <th>Accion</th>
+
+          </tr>
         </thead>
         <tbody id="cuerpoTabla">
-  
+
         </tbody>
         <tfoot>
           <tr>
@@ -70,28 +70,28 @@
             <th>Percepcion RG 4815</th>
             <th>Impuesto PAIS</th>
             <th>Impuesto RG 5272</th>
-            <th>Total con impuestos</th>           
+            <th>Total con impuestos</th>
           </tr>
           <tr>
-              
-              <td colspan="2" style="text-align: center;" id="PrecioTotal"></td>
-              <td id="TotalSinImpuestos"></td>
-              <td id="totalRetenciones"></td>
-              <td id="totalImpuestos"></td>
-              <td id="totalBienes"></td>
-              <td id="totalGasto"></td>
+
+            <td colspan="2" style="text-align:right; padding-right: 10px;" id="PrecioTotal"></td>
+            <td style="text-align:right; padding-right: 10px;" id="TotalSinImpuestos"></td>
+            <td style="text-align:right; padding-right: 10px;" id="totalRetenciones"></td>
+            <td style="text-align:right; padding-right: 10px;" id="totalImpuestos"></td>
+            <td style="text-align:right; padding-right: 10px;" id="totalBienes"></td>
+            <td style="text-align:right; padding-right: 10px;" id="totalGasto"></td>
           </tr>
         </tfoot id="cuerpoTotales">
-    </table>
+      </table>
     </div>
 
-   <div class="display-result">
-    
-   </div>
+    <div class="display-result">
 
-    
+    </div>
 
 
+
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.7.2/dist/sweetalert2.all.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"
       integrity="sha384-w76AqPfDkMBDXo30jS1Sgez6pr3x5MlQ1ZAGC+nuZB+EYdgRZgiwxhTBTkF7CXvN"
       crossorigin="anonymous"></script>
