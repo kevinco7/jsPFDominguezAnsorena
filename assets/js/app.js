@@ -98,7 +98,8 @@ function cargarCompra(e) {
 
   return new Promise((resolve) => {
     setTimeout(() => {
-      if (descripcionInput.value === "" || precioInput.value === "") {
+      if (descripcionInput.value === "" || precioInput.value === "") {       
+
         alert("Todos los campos se deben llenar");
         return;
       }
@@ -120,7 +121,7 @@ function cargarCompra(e) {
         agregarProducto();
       }
       resolve();
-    }, 1700);
+    }, 2000);
   });
 }
 
