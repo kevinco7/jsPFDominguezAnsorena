@@ -2,6 +2,7 @@ const valorImpuesto = 0.3;
 const valorRetencion = 0.45;
 const valorBienesPersonales = 0.25;
 const SALIR = "ESC";
+
 let productos = JSON.parse(localStorage.getItem("producto")) || [];
 let precioCompra = parseFloat(0).toFixed(2);
 let valorDolar = parseFloat(0).toFixed(2);
@@ -120,7 +121,7 @@ function cargarCompra(e) {
         agregarProducto();
       }
       resolve();
-    }, 5000);
+    }, 1700);
   });
 }
 
@@ -143,6 +144,8 @@ function agregarProducto() {
   formulario.reset();
   limpiarObjeto();
 }
+
+
 
 function mostrarProductos() {
   //funcion para limpiar el listado y que no se repita con lo creado
@@ -176,7 +179,7 @@ function mostrarProductos() {
     let tdNombre = document.createElement("td");
     tdNombre.textContent = `${producto.descripcion}`;
     $tr.appendChild(tdNombre);
-    let tdPrecio = document.createElement("td");
+    let tdPrecio = document.createElement("td",);
     tdPrecio.innerHTML = `${producto.monedaCompra} ${producto.precio} <br>
                           U$D ${producto.precioTarjeta}`;
 
